@@ -6,9 +6,9 @@ import pytest
 import sys
 import os
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../src"))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../.."))
 
-from src.space-optimizer.models import (
+from src.space_optimizer.models import (
     FuzzyNumber,
     FuzzyComparisonMatrix,
     ZAHPCalculator,
@@ -204,10 +204,11 @@ class TestBranchSpaceEvaluator:
     def test_optimize_layout(self):
         evaluator = BranchSpaceEvaluator()
         
+        # Pass criterion-level scores (not sub-indicator scores)
         current_scores = {
-            "area_efficiency": 0.6,
-            "flow_line_score": 0.65,
-            "functional_layout_score": 0.7
+            "service_efficiency": 0.65,
+            "customer_experience": 0.72,
+            "space_utilization": 0.60  # Low score triggers optimization suggestions
         }
         
         result = evaluator.optimize_layout(
@@ -220,7 +221,8 @@ class TestBranchSpaceEvaluator:
         assert result.current_layout_score > 0
         assert result.optimized_layout_score > result.current_layout_score
         assert len(result.suggestions) > 0
-        assert "investment_estimate" in result.investment_estimate
+        assert "min" in result.investment_estimate
+        assert "max" in result.investment_estimate
 
 
 if __name__ == "__main__":

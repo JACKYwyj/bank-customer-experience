@@ -51,6 +51,9 @@ class FuzzyNumber:
     def __add__(self, other: "FuzzyNumber") -> "FuzzyNumber":
         return FuzzyNumber(self.l + other.l, self.m + other.m, self.u + other.u)
     
+    def __sub__(self, other: "FuzzyNumber") -> "FuzzyNumber":
+        return FuzzyNumber(self.l - other.u, self.m - other.m, self.u - other.l)
+    
     def __mul__(self, other: "FuzzyNumber") -> "FuzzyNumber":
         return FuzzyNumber(self.l * other.l, self.m * other.m, self.u * other.u)
     
@@ -309,12 +312,14 @@ class ZTOPSISOptimizer:
     def normalize_fuzzy_matrix(
         self,
         fuzzy_matrix: List[List[FuzzyNumber]],
+        criteria: List[str],
         criteria_types: Dict[str, bool]  # True: benefit, False: cost
     ) -> List[List[FuzzyNumber]]:
         """
         规范化模糊决策矩阵
         
         Args:
+            criteria: 准则列表
             criteria_types: 准则类型，True为效益型，False为成本型
         """
         n_alt = len(fuzzy_matrix)
@@ -383,7 +388,7 @@ class ZTOPSISOptimizer:
         """
         # 构建并规范化决策矩阵
         fuzzy_matrix = self.build_fuzzy_decision_matrix(alternatives, criteria, values)
-        normalized = self.normalize_fuzzy_matrix(fuzzy_matrix, criteria_types)
+        normalized = self.normalize_fuzzy_matrix(fuzzy_matrix, criteria, criteria_types)
         
         # 加权规范化矩阵
         weight_array = self.calculate_weights(criteria, weights)
