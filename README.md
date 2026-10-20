@@ -1,408 +1,260 @@
 # Bank Customer Experience Enhancement System
-## 基于AI赋能与情绪感知双驱动的银行网点客户体验提升系统
+## 基于AI赋能与情绪感知双驱动的银行网点客户体验提升方案
 
-### 项目概述
+[![GitHub Stars](https://img.shields.io/github/stars/JACKYwyj/bank-customer-experience)](https://github.com/JACKYwyj/bank-customer-experience)
+[![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://www.python.org/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-本项目基于AI赋能与情绪感知双驱动的银行网点客户体验提升实策研究实现，构建集多模态情绪识别、AI驱动的服务流程、人机协同、隐私安全于一体的智慧银行网点系统。
+---
 
-### 核心特性
+## 一、执行摘要
 
-- 🎭 **多模态情绪识别**：融合面部表情、语音语调、文本语义多维度情绪分析
-- 🤝 **人工同理心增强**：AI承担标准化任务，释放人工聚焦高价值服务
-- 🔒 **emoAIsec隐私安全**：联邦学习 + 差分隐私保护敏感数据
-- 🌐 **全渠道客户旅程**：打通线上线下数据，实现无缝服务体验
-- 🏢 **智能网点空间优化**：Z-AHP/Z-TOPSIS评价体系优化功能分区
+银行网点的智能化建设不仅要提高业务效率，也要解决客户在等待、操作受阻和异常处理过程中困难无法及时发现、帮助难以及时到达、问题难以连续交接的服务痛点。
 
-### 系统架构图
+无解释的等待、反复失败和重复叙述会积累客户不满，增加投诉升级和信任流失风险，进而影响客户满意度、持续使用意愿及网点运营效率。
+
+本方案将排队进度、操作日志和客户主动表达与情绪参考信息结合，把服务提示转化为进度解释、分步引导、服务修复和人工接手，并记录处理结果，用于识别流程堵点和优化服务安排，有效降低客诉处理成本。
+
+**核心价值：**
+
+| 价值维度 | 具体描述 |
+|----------|----------|
+| **满意度提升** | 减少无解释等待、重复询问、无效操作和重复叙述 |
+| **及时响应** | 将提示关联到具体业务步骤、接手岗位和处理状态 |
+| **持续改善** | 服务记录支持识别流程堵点，优化引导岗位和网点动线 |
+| **分阶段实施** | 可分阶段投入和验证，降低一次性大范围改造的投入压力 |
+| **个性化服务** | 在合规前提下完善客户画像，提供定向服务 |
+| **降低成本** | 有效前置处置显著降低客户投诉处理成本 |
+
+---
+
+## 二、系统架构
+
+### 2.1 整体架构
 
 ```
-┌─────────────────────────────────────────────────────────────────────────┐
-│                           表现层 (Presentation)                          │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────────┐ │
-│  │  Web Portal │  │ Mobile App  │  │ Physical    │  │ Branch Kiosk   │ │
-│  │             │  │             │  │ Branch      │  │                │ │
-│  └─────────────┘  └─────────────┘  └─────────────┘  └─────────────────┘ │
-├─────────────────────────────────────────────────────────────────────────┤
-│                           服务层 (Services)                              │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────────┐ │
-│  │  Emotion    │  │  Empathy    │  │  Service    │  │ Journey         │ │
-│  │  Recognition│  │  AI         │  │  Flow       │  │ Orchestrator    │ │
-│  │  :8001      │  │  :8002      │  │  :8004      │  │ :8003           │ │
-│  └─────────────┘  └─────────────┘  └─────────────┘  └─────────────────┘ │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐                      │
-│  │  Space      │  │  Privacy    │  │  Common     │                      │
-│  │  Optimizer  │  │  Shield     │  │  Config     │                      │
-│  │  :8005      │  │  :8006      │  │             │                      │
-│  └─────────────┘  └─────────────┘  └─────────────┘                      │
-├─────────────────────────────────────────────────────────────────────────┤
-│                           数据层 (Data)                                  │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────────┐ │
-│  │ PostgreSQL  │  │   Redis     │  │   Kafka     │  │ Edge Storage    │ │
-│  │             │  │             │  │             │  │                 │ │
-│  └─────────────┘  └─────────────┘  └─────────────┘  └─────────────────┘ │
-├─────────────────────────────────────────────────────────────────────────┤
-│                         隐私计算层 (Privacy Computing)                   │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐                      │
-│  │  Federated  │  │ Differential│  │   Edge      │                      │
-│  │  Learning   │  │  Privacy    │  │  Encryption │                      │
-│  └─────────────┘  └─────────────┘  └─────────────┘                      │
-└─────────────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           接入层 (Gateway Layer)                            │
+│        Web门户 │ 移动App │ 智能终端 │ 第三方系统集成                          │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                           网关层 (API Gateway)                              │
+│              统一认证 │ 限流熔断 │ 请求路由 │ 日志监控                        │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                           服务层 (Business Services)                         │
+│  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐      │
+│  │   情绪识别   │ │   共情交互   │ │   服务流程   │ │   客户旅程   │      │
+│  │  (8001)     │ │   (8002)     │ │   (8004)     │ │   (8003)     │      │
+│  └──────────────┘ └──────────────┘ └──────────────┘ └──────────────┘      │
+│  ┌──────────────┐ ┌──────────────┐                                       │
+│  │   空间优化   │ │   隐私保护   │                                       │
+│  │  (8005)     │ │   (8006)     │                                       │
+│  └──────────────┘ └──────────────┘                                       │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                           支撑层 (Supporting Services)                       │
+│             Kafka消息队列 │ Redis缓存 │ PostgreSQL                         │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                           隐私计算层 (Privacy Computing)                    │
+│                  联邦学习 │ 差分隐私 │ 端侧加密                            │
+└─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 服务端口分配
+### 2.2 服务端口分配
 
-| 服务 | 端口 | 描述 |
-|------|------|------|
-| emotion-recognition | 8001 | 多模态情绪识别服务 |
-| empathy-ai | 8002 | 人工同理心AI服务 |
-| journey-orchestrator | 8003 | 客户旅程编排服务 |
-| service-flow | 8004 | 服务流程引擎 |
-| space-optimizer | 8005 | 网点空间优化服务 |
-| privacy-shield | 8006 | 隐私保护服务 |
+| 服务 | 端口 | 核心功能 |
+|------|------|----------|
+| emotion-recognition | 8001 | 多模态情绪识别、告警生成 |
+| empathy-ai | 8002 | 共情回应、服务修复话术 |
+| journey-orchestrator | 8003 | 客户旅程记录、跨渠道事件管理 |
+| service-flow | 8004 | 流程调整、服务修复、人工接手 |
+| space-optimizer | 8005 | Z-AHP/Z-TOPSIS网点评价 |
+| privacy-shield | 8006 | 隐私设置、数据删除请求 |
 
-### 技术栈
+---
 
-- **语言**: Python 3.11+
-- **框架**: FastAPI, PyTorch, Transformers
-- **数据库**: PostgreSQL, Redis
-- **消息队列**: Apache Kafka
-- **隐私计算**: PySyft (联邦学习), OpenDP (差分隐私)
-- **容器化**: Docker, Kubernetes
+## 三、核心模块
 
-### 快速开始
+### 3.1 情绪识别 (Emotion Recognition)
 
-#### 1. 环境要求
+**端口：8001**
 
-- Python 3.11+
-- PostgreSQL 14+
-- Redis 7+
-- Kafka 3.5+
+融合面部表情、语音语调、文本语义三个维度的情绪识别。
 
-#### 2. 安装依赖
+**多模态融合权重（原型初始参数）：**
+
+| 模态 | 权重 | 有效阈值 |
+|------|------|----------|
+| 面部表情 | 0.40 | 置信度 > 0.5 |
+| 语音语调 | 0.35 | 置信度 > 0.5 |
+| 文本语义 | 0.25 | 置信度 > 0.5 |
+
+**告警规则：**
+
+| 情绪 | 触发条件 | 建议响应 |
+|------|----------|----------|
+| 焦虑 (anxiety) | 分值 ≥ 0.5 且持续 ≥ 60秒 | 先解释进度并观察 |
+| 愤怒 (anger) | 分值 ≥ 0.8 且持续 ≥ 30秒 | 建议人工接手 |
+| 受挫 (frustration) | 分值 ≥ 0.6 且持续 ≥ 90秒 | 建议服务修复 |
+
+### 3.2 共情交互 (Empathy AI)
+
+**端口：8002**
+
+基于上下文和模板生成共情回应及服务修复话术。
+
+### 3.3 客户旅程 (Journey Orchestrator)
+
+**端口：8003**
+
+记录跨渠道服务事件，实现线上线下服务接续。
+
+### 3.4 服务流程 (Service Flow)
+
+**端口：8004**
+
+判断是否干预及如何修复，结合告警信息生成流程调整建议。
+
+### 3.5 空间优化 (Space Optimizer)
+
+**端口：8005**
+
+基于Z-AHP与Z-TOPSIS评价体系，为网点空间调整提供辅助判断。
+
+**评价指标：**
+
+- 平均等待时间、平均服务时间、业务成功率
+- 满意度评分、情绪积极率、投诉率
+- 面积效率、功能布局评分、动线评分
+
+### 3.6 隐私保护 (Privacy Shield)
+
+**端口：8006**
+
+确保客户数据隐私安全，支持联邦学习架构。
+
+---
+
+## 四、应用场景
+
+### 4.1 等候场景
+
+当客户反复询问进度或持续表现焦虑时，系统先一步完成识别，提醒大堂人员核实原因，说明预计办理顺序，检查是否存在资料缺失或业务分流可能。
+
+### 4.2 自助操作场景
+
+系统依据操作日志识别重复返回、同一步骤多次失败和主动求助，对一般困难提供简短步骤说明和人工帮助入口。
+
+### 4.3 异常服务修复
+
+先核实事实、明确可处理事项和办理时限，给出适度的理解与解释，涉及争议或紧急资金需求时直接转交具备相应权限的人员处理。
+
+---
+
+## 五、技术栈
+
+| 类别 | 技术选型 |
+|------|----------|
+| **语言** | Python 3.11+ |
+| **框架** | FastAPI, PyTorch, Transformers |
+| **数据库** | PostgreSQL, Redis |
+| **消息队列** | Apache Kafka |
+| **隐私计算** | PySyft (联邦学习), OpenDP (差分隐私) |
+| **容器化** | Docker |
+
+---
+
+## 六、快速开始
+
+### 6.1 安装依赖
 
 ```bash
-# 克隆项目
-git clone https://github.com/your-org/bank-customer-experience.git
+git clone https://github.com/JACKYwyj/bank-customer-experience.git
 cd bank-customer-experience
-
-# 创建虚拟环境
-python3 -m venv venv
-source venv/bin/activate  # Linux/Mac
-# 或: venv\Scripts\activate  # Windows
-
-# 安装依赖
 pip install -r requirements.txt
 ```
 
-#### 3. 配置环境变量
+### 6.2 启动服务
 
 ```bash
-cp .env.example .env
-# 编辑 .env 填写必要的配置
+# 启动各服务
+cd src/emotion_recognition && python service.py &  # 端口 8001
+cd src/empathy_ai && python service.py &           # 端口 8002
+cd src/journey_orchestrator && python service.py & # 端口 8003
+cd src/service_flow && python service.py &         # 端口 8004
+cd src/space_optimizer && python service.py &      # 端口 8005
+cd src/privacy_shield && python service.py &       # 端口 8006
 ```
 
-主要配置项：
-```env
-DATABASE_URL=postgresql+asyncpg://postgres:postgres@localhost:5432/bank_customer
-REDIS_HOST=localhost
-REDIS_PORT=6379
-KAFKA_BOOTSTRAP_SERVERS=localhost:9092
-JWT_SECRET_KEY=your-secret-key-change-in-production
-```
-
-#### 4. 启动服务
-
-**开发环境 (直接运行)**:
-```bash
-# 启动各个服务
-cd src/emotion-recognition && python service.py &
-cd src/empathy-ai && python service.py &
-cd src/journey-orchestrator && python service.py &
-cd src/service-flow && python service.py &
-cd src/space-optimizer && python service.py &
-cd src/privacy-shield && python service.py &
-```
-
-**Docker Compose**:
-```bash
-docker-compose up -d
-```
-
-#### 5. 运行测试
-
-```bash
-# 运行所有测试
-pytest tests/ -v
-
-# 运行带覆盖率报告的测试
-pytest tests/ --cov=src --cov-report=html
-
-# 运行特定模块测试
-pytest tests/unit/test_emotion_recognition.py -v
-```
-
-### API 使用示例
-
-#### 1. 情绪识别服务 (Port 8001)
+### 6.3 API 调用示例
 
 ```bash
 # 创建情绪识别会话
 curl -X POST http://localhost:8001/emotion/sessions \
   -H "Content-Type: application/json" \
-  -d '{
-    "user_id": "user_001",
-    "session_type": "branch_service",
-    "branch_id": "branch_beijing_001"
-  }'
+  -d '{"user_id": "user_001", "session_type": "branch_service"}'
 
-# 多模态情绪识别
+# 情绪识别
 curl -X POST http://localhost:8001/emotion/recognize \
   -H "Content-Type: application/json" \
-  -d '{
-    "session_id": "emo_session_xxx",
-    "text": "等太久了，我要投诉！",
-    "context": {"wait_time": 25}
-  }'
+  -d '{"session_id": "xxx", "text": "等太久了！"}'
 
-# 获取情绪历史
-curl http://localhost:8001/emotion/sessions/{session_id}/history
-```
-
-#### 2. 同理心AI服务 (Port 8002)
-
-```bash
-# 发送对话消息
+# 共情交互
 curl -X POST http://localhost:8002/empathy/chat \
   -H "Content-Type: application/json" \
-  -d '{
-    "user_id": "user_001",
-    "message": "我要投诉！等了25分钟还没轮到！",
-    "current_emotion": "angry",
-    "emotion_intensity": 0.85,
-    "wait_time_minutes": 25,
-    "customer_tier": "gold"
-  }'
+  -d '{"user_id": "user_001", "message": "我要投诉！", "current_emotion": "angry"}'
 
-# 获取代理信息
-curl http://localhost:8002/empathy/agents/agent_001
-
-# 获取服务修复话术
-curl -X POST http://localhost:8002/empathy/recovery/scripts \
-  -H "Content-Type: application/json" \
-  -d '{"emotion": "anxiety", "intensity": 0.7}'
-```
-
-#### 3. 客户旅程编排服务 (Port 8003)
-
-```bash
-# 记录客户事件
-curl -X POST http://localhost:8003/journey/events \
-  -H "Content-Type: application/json" \
-  -d '{
-    "user_id": "user_001",
-    "event_type": "emotion_change",
-    "channel": "branch",
-    "event_data": {"to_emotion": "anxious", "intensity": 0.6}
-  }'
-
-# 获取客户360视图
-curl http://localhost:8003/journey/customer/user_001?include_session=true
-
-# 获取个性化推荐
-curl http://localhost:8003/journey/recommendations/user_001?max_count=5
-```
-
-#### 4. 服务流程引擎 (Port 8004)
-
-```bash
-# 获取服务流程列表
-curl http://localhost:8004/flow/processes
-
-# 触发服务流程
-curl -X POST http://localhost:8004/flow/processes/proc_001/trigger \
-  -H "Content-Type: application/json" \
-  -d '{
-    "user_id": "user_001",
-    "trigger_type": "emotion_alert",
-    "trigger_data": {"emotion": "anxiety", "intensity": 0.7}
-  }'
-
-# 获取流程实例状态
-curl http://localhost:8004/flow/instances/{instance_id}
-
-# 基于情绪调整流程
-curl -X POST http://localhost:8004/flow/adjust \
-  -H "Content-Type: application/json" \
-  -d '{
-    "instance_id": "inst_xxx",
-    "emotion": {"emotion": "anxiety", "intensity": 0.7, "duration_seconds": 90}
-  }'
-```
-
-#### 5. 网点空间优化服务 (Port 8005)
-
-```bash
-# 评价网点
+# 网点空间评价
 curl -X POST http://localhost:8005/space/evaluate/branch_001 \
   -H "Content-Type: application/json" \
-  -d '{
-    "branch_name": "北京朝阳支行",
-    "indicator_data": {
-      "avg_wait_time": 10,
-      "avg_service_time": 8,
-      "success_rate": 0.95,
-      "satisfaction_score": 4.2,
-      "emotion_positive_rate": 0.8,
-      "complaint_rate": 0.02,
-      "area_efficiency": 0.75,
-      "functional_layout_score": 0.8,
-      "flow_line_score": 0.7
-    }
-  }'
-
-# 获取优化建议
-curl "http://localhost:8005/space/optimize/branch_001/suggestions?current_area_efficiency=0.6&current_flow_line_score=0.65&current_layout_score=0.7"
-
-# 计算指标权重
-curl -X POST http://localhost:8005/space/weights/calculate \
-  -H "Content-Type: application/json" \
-  -d '{
-    "comparisons": {
-      "service_experience": {"customer_experience": 2},
-      "service_experience": {"space_utilization": 3},
-      "customer_experience": {"space_utilization": 2}
-    }
-  }'
+  -d '{"branch_name": "北京朝阳支行", "indicator_data": {...}}'
 ```
 
-#### 6. 隐私保护服务 (Port 8006)
+---
 
-```bash
-# 获取隐私设置
-curl http://localhost:8006/privacy/settings/user_001
-
-# 更新隐私设置
-curl -X PUT http://localhost:8006/privacy/settings/user_001 \
-  -H "Content-Type: application/json" \
-  -d '{"emotion_data_collection": true, "biometric_storage": false}'
-
-# 申请数据删除
-curl -X POST http://localhost:8006/privacy/requests/delete \
-  -H "Content-Type: application/json" \
-  -d '{"user_id": "user_001", "data_types": ["emotion_data", "behavioral_data"]}'
-
-# 获取隐私仪表板
-curl http://localhost:8006/privacy/dashboard/user_001
-
-# 提交联邦学习更新
-curl -X POST http://localhost:8006/privacy/federated-learning/submit \
-  -H "Content-Type: application/json" \
-  -d '{
-    "client_id": "branch_001",
-    "round": 1,
-    "gradient_data": {"w1": 0.1, "w2": 0.2},
-    "sample_count": 100
-  }'
-```
-
-### 目录结构
+## 七、项目结构
 
 ```
 bank-customer-experience/
-├── src/                          # 源代码
-│   ├── emotion-recognition/      # 情绪识别模块
-│   │   ├── models.py             # 数据模型
-│   │   ├── service.py            # FastAPI服务
-│   │   └── __init__.py
-│   ├── empathy-ai/               # 同理心AI模块
-│   │   ├── models.py
-│   │   ├── service.py
-│   │   └── __init__.py
-│   ├── privacy-shield/           # 隐私保护模块
-│   │   ├── models.py
-│   │   ├── service.py
-│   │   └── __init__.py
-│   ├── journey-orchestrator/     # 旅程编排模块
-│   │   ├── models.py
-│   │   ├── service.py
-│   │   └── __init__.py
-│   ├── space-optimizer/          # 空间优化模块
-│   │   ├── models.py
-│   │   ├── service.py
-│   │   └── __init__.py
-│   ├── service-flow/             # 服务流程模块
-│   │   ├── models.py
-│   │   ├── service.py
-│   │   └── __init__.py
-│   └── common/                   # 公共模块
-│       ├── config.py
-│       └── __init__.py
-├── tests/                        # 测试代码
-│   ├── unit/                     # 单元测试
-│   ├── integration/              # 集成测试
-│   └── conftest.py               # pytest配置
-├── docs/                         # 开发文档
-├── docker/                       # Docker配置
-├── scripts/                      # 辅助脚本
-├── configs/                      # 配置文件
-├── requirements.txt              # Python依赖
-├── pytest.ini                    # pytest配置
-├── docker-compose.yml            # Docker Compose配置
+├── src/
+│   ├── emotion_recognition/     # 情绪识别模块
+│   ├── empathy_ai/              # 共情交互模块
+│   ├── journey_orchestrator/    # 客户旅程编排
+│   ├── service_flow/            # 服务流程引擎
+│   ├── space_optimizer/         # 空间优化评价
+│   ├── privacy_shield/          # 隐私保护模块
+│   └── common/                  # 公共配置
+├── tests/
+│   └── unit/                    # 单元测试
+├── docs/                        # 开发文档
+├── docker/                      # Docker配置
+├── requirements.txt
 └── README.md
 ```
 
-### 系统模块
+---
 
-| 模块 | 说明 | 核心功能 |
-|------|------|----------|
-| `emotion-recognition` | 多模态情绪识别引擎 | 面部/语音/文本情绪分析 |
-| `empathy-ai` | 人工同理心AI | 智能共情交互、服务安抚 |
-| `privacy-shield` | emoAIsec隐私保护 | 联邦学习、差分隐私 |
-| `journey-orchestrator` | 客户旅程编排 | 全渠道数据同步、个性化服务 |
-| `space-optimizer` | 网点空间优化 | Z-AHP/Z-TOPSIS评价 |
-| `service-flow` | 服务流程引擎 | 人机协同、情绪驱动的服务修复 |
+## 八、后续开发计划
 
-### 开发文档
+| 阶段 | 内容 | 状态 |
+|------|------|------|
+| 第一阶段 | 设备盘点、接口梳理、离线模型评估 | ✅ 已完成 |
+| 第二阶段 | 接入解释、求助与人工派单 | 🔄 进行中 |
+| 第三阶段 | 接入真实模型，开展有限现场试用 | 📋 待开发 |
+| 第四阶段 | 服务状态、处理结果和客户评价持久化回写 | 📋 待开发 |
 
-- [系统设计文档](./docs/SYSTEM_DESIGN.md)
-- [API接口文档](./docs/API.md)
-- [数据库设计文档](./docs/DATABASE.md)
-- [部署文档](./docs/DEPLOYMENT.md)
-- [模块详细设计](./docs/modules/)
+---
 
-### 测试覆盖
+## 九、参考资料
 
-运行测试并生成覆盖率报告：
+[1] 中国银行业协会. 《2024年中国银行业服务报告》[EB/OL]. 2025-06-24.
 
-```bash
-# 生成覆盖率报告 (HTML)
-pytest tests/ --cov=src --cov-report=html --cov-report=term
+[2] Markovitch D G, et al. Consumer reactions to chatbot versus human service[J]. Journal of Retailing and Consumer Services, 2024.
 
-# 查看覆盖率报告
-open htmlcov/index.html
+[3] Guo Y, et al. Exploring the effect of empathic response in AI service recovery[J]. Journal of Retailing and Consumer Services, 2025.
 
-# 只运行特定测试
-pytest tests/unit/test_emotion_recognition.py -v
-pytest tests/unit/test_journey_orchestrator.py -v
-```
+[4] Juquelier A, et al. Empathic chatbots: A double-edged sword[J]. Journal of Business Research, 2025.
 
-当前测试覆盖模块：
-- emotion-recognition
-- empathy-ai
-- privacy-shield
-- space-optimizer
-- journey-orchestrator
-- service-flow
+---
 
-### 贡献指南
+**项目仓库**：https://github.com/JACKYwyj/bank-customer-experience
 
-1. Fork 本仓库
-2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 创建 Pull Request
-
-### 许可证
-
-MIT License
-
+**许可证**：MIT License
