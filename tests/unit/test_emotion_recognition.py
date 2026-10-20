@@ -216,7 +216,7 @@ class TestCrossModalFusion:
                 EmotionResult(EmotionType.ANGER, 0.85),
                 EmotionResult(EmotionType.ANGER, 0.88)
             ],
-            wait_time_minutes=0
+            wait_time_seconds=0
         )
         
         assert alert.triggered is True
@@ -227,7 +227,7 @@ class TestCrossModalFusion:
             current_emotion=EmotionType.ANXIETY,
             intensity=0.6,
             emotion_history=[],
-            wait_time_minutes=20
+            wait_time_seconds=60
         )
         
         assert alert.triggered is True
@@ -238,7 +238,7 @@ class TestCrossModalFusion:
             current_emotion=EmotionType.NEUTRAL,
             intensity=0.3,
             emotion_history=[],
-            wait_time_minutes=0
+            wait_time_seconds=0
         )
         
         assert alert.triggered is False
