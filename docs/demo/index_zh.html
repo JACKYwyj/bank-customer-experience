@@ -14,80 +14,178 @@
             color: #fff;
         }
         
-        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        .container { max-width: 1600px; margin: 0 auto; padding: 20px; }
         
         /* Header */
         .header {
             text-align: center;
-            padding: 40px 20px;
+            padding: 30px 20px;
             background: rgba(255,255,255,0.05);
             border-radius: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
         .header h1 {
-            font-size: 2.5rem;
+            font-size: 2rem;
             background: linear-gradient(90deg, #00d9ff, #00ff88);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
-        .header p { color: #888; font-size: 1.1rem; }
+        .header p { color: #888; font-size: 1rem; }
         .badge {
             display: inline-block;
             background: linear-gradient(90deg, #00d9ff, #00ff88);
             color: #1a1a2e;
-            padding: 8px 20px;
+            padding: 6px 16px;
             border-radius: 20px;
             font-weight: bold;
-            margin-top: 15px;
+            margin-top: 12px;
+            font-size: 0.9rem;
         }
+        
+        /* Language Switcher */
+        .lang-switch {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 8px;
+            z-index: 100;
+        }
+        .lang-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+        .lang-btn:hover { background: rgba(255,255,255,0.2); }
+        .lang-btn.active { background: rgba(0,255,136,0.2); border-color: #00ff88; }
         
         /* Main Grid */
         .main-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
         }
         
-        @media (max-width: 900px) {
+        @media (max-width: 1100px) {
+            .main-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
             .main-grid { grid-template-columns: 1fr; }
         }
         
         /* Cards */
         .card {
             background: rgba(255,255,255,0.08);
-            border-radius: 20px;
-            padding: 25px;
+            border-radius: 16px;
+            padding: 20px;
             border: 1px solid rgba(255,255,255,0.1);
         }
         .card h2 {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: #00d9ff;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
         
-        /* Input Section */
-        .input-group { margin-bottom: 20px; }
+        /* Video Preview */
+        .video-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4/3;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+        .video-container video,
+        .video-container canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .video-container canvas {
+            z-index: 2;
+        }
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.7);
+            z-index: 3;
+            cursor: pointer;
+        }
+        .video-overlay.hidden { display: none; }
+        .video-overlay-text {
+            text-align: center;
+            color: #888;
+        }
+        .video-overlay-text .icon { font-size: 3rem; margin-bottom: 10px; }
+        
+        /* Audio Waveform */
+        .audio-container {
+            background: rgba(0,0,0,0.4);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .waveform-canvas {
+            width: 100%;
+            height: 80px;
+            background: #111;
+            border-radius: 8px;
+        }
+        
+        /* Audio Visualization Bars */
+        .audio-bars {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 3px;
+            height: 60px;
+            margin: 15px 0;
+        }
+        .audio-bar {
+            width: 4px;
+            background: linear-gradient(to top, #00d9ff, #00ff88);
+            border-radius: 2px;
+            transition: height 0.05s;
+        }
+        
+        /* Text Input */
+        .input-group { margin-bottom: 15px; }
         .input-group label {
             display: block;
             color: #888;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
         }
         .input-group textarea {
             width: 100%;
-            padding: 15px;
-            border-radius: 12px;
+            padding: 12px;
+            border-radius: 10px;
             border: 1px solid rgba(255,255,255,0.2);
             background: rgba(0,0,0,0.3);
             color: #fff;
-            font-size: 1rem;
+            font-size: 0.95rem;
             resize: vertical;
-            min-height: 100px;
+            min-height: 80px;
         }
         .input-group textarea:focus {
             outline: none;
@@ -98,67 +196,89 @@
         .btn {
             background: linear-gradient(90deg, #00d9ff, #00ff88);
             border: none;
-            padding: 12px 30px;
-            border-radius: 10px;
+            padding: 10px 24px;
+            border-radius: 8px;
             color: #1a1a2e;
             font-weight: bold;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.95rem;
             transition: transform 0.2s, opacity 0.2s;
         }
         .btn:hover { transform: scale(1.02); opacity: 0.9; }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; }
         
+        /* Scenarios */
+        .scenarios {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+        .scenario-btn {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 10px 12px;
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+        }
+        .scenario-btn:hover { border-color: #00d9ff; background: rgba(0,217,255,0.1); }
+        .scenario-btn.active { border-color: #00ff88; background: rgba(0,255,136,0.1); }
+        .scenario-name { font-weight: bold; }
+        .scenario-desc { color: #666; font-size: 0.75rem; margin-top: 2px; }
+        
         /* Results */
         .result-section {
             background: rgba(0,0,0,0.3);
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 20px;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
         }
         .result-section h3 {
             color: #00ff88;
-            margin-bottom: 15px;
-            font-size: 1rem;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
         }
         
         /* Emotion Display */
         .emotion-display {
             display: flex;
             align-items: center;
-            gap: 20px;
-            margin-bottom: 20px;
+            gap: 15px;
+            margin-bottom: 15px;
         }
         .emotion-emoji {
-            font-size: 4rem;
-            width: 100px;
-            height: 100px;
+            font-size: 3rem;
+            width: 70px;
+            height: 70px;
             display: flex;
             align-items: center;
             justify-content: center;
             background: rgba(255,255,255,0.1);
-            border-radius: 20px;
+            border-radius: 15px;
         }
         .emotion-info { flex: 1; }
         .emotion-name {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: bold;
             color: #00ff88;
         }
         .emotion-confidence {
             color: #888;
-            font-size: 1rem;
-            margin-top: 5px;
+            font-size: 0.9rem;
+            margin-top: 3px;
         }
         
         /* Progress Bar */
         .progress-bar {
             width: 100%;
-            height: 10px;
+            height: 8px;
             background: rgba(255,255,255,0.1);
-            border-radius: 5px;
+            border-radius: 4px;
             overflow: hidden;
-            margin: 10px 0;
+            margin: 8px 0;
         }
         .progress-fill {
             height: 100%;
@@ -170,18 +290,18 @@
         .modalities {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin: 20px 0;
+            gap: 10px;
+            margin: 15px 0;
         }
         .modality {
             background: rgba(0,0,0,0.2);
-            padding: 15px;
-            border-radius: 12px;
+            padding: 12px;
+            border-radius: 10px;
             text-align: center;
         }
-        .modality-icon { font-size: 2rem; margin-bottom: 8px; }
-        .modality-name { color: #888; font-size: 0.85rem; }
-        .modality-value { color: #00ff88; font-size: 1.1rem; font-weight: bold; margin-top: 5px; }
+        .modality-icon { font-size: 1.5rem; margin-bottom: 5px; }
+        .modality-name { color: #888; font-size: 0.8rem; }
+        .modality-value { color: #00ff88; font-size: 1rem; font-weight: bold; margin-top: 3px; }
         .modality.active .modality-value { color: #00ff88; }
         .modality.inactive { opacity: 0.4; }
         
@@ -189,110 +309,125 @@
         .alert {
             background: rgba(255, 68, 68, 0.2);
             border: 1px solid rgba(255, 68, 68, 0.5);
-            border-radius: 12px;
-            padding: 15px;
-            margin-top: 15px;
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 12px;
         }
         .alert.warning { background: rgba(255, 170, 0, 0.2); border-color: rgba(255, 170, 0, 0.5); }
-        .alert-icon { font-size: 1.5rem; margin-right: 10px; }
-        .alert-text { color: #ff6b6b; }
+        .alert-icon { font-size: 1.2rem; margin-right: 8px; }
+        .alert-text { color: #ff6b6b; font-size: 0.9rem; }
         .alert.warning .alert-text { color: #ffaa00; }
-        .alert-recommendation { color: #888; font-size: 0.9rem; margin-top: 8px; }
-        
-        /* Scenarios */
-        .scenarios {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-        .scenario-btn {
-            background: rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 12px 15px;
-            border-radius: 10px;
-            color: #fff;
-            cursor: pointer;
-            text-align: left;
-            transition: all 0.2s;
-        }
-        .scenario-btn:hover { border-color: #00d9ff; background: rgba(0,217,255,0.1); }
-        .scenario-btn.active { border-color: #00ff88; background: rgba(0,255,136,0.1); }
-        .scenario-name { font-weight: bold; font-size: 0.95rem; }
-        .scenario-desc { color: #666; font-size: 0.8rem; margin-top: 3px; }
-        
-        /* Full Width */
-        .full-width { grid-column: 1 / -1; }
-        
-        /* Architecture */
-        .architecture {
-            background: rgba(0,0,0,0.3);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-        }
-        .arch-layer {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin: 10px 0;
-        }
-        .arch-box {
-            background: linear-gradient(135deg, rgba(0,217,255,0.2), rgba(0,255,136,0.1));
-            border: 1px solid rgba(0,217,255,0.3);
-            padding: 10px 15px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-        }
-        .arch-box.active { border-color: #00ff88; background: rgba(0,255,136,0.2); }
+        .alert-recommendation { color: #888; font-size: 0.8rem; margin-top: 5px; }
         
         /* Logs */
         .logs {
             background: rgba(0,0,0,0.4);
-            border-radius: 12px;
-            padding: 15px;
-            max-height: 200px;
+            border-radius: 10px;
+            padding: 12px;
+            max-height: 150px;
             overflow-y: auto;
             font-family: 'Monaco', 'Menlo', monospace;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
-        .log-entry { padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .log-time { color: #666; margin-right: 10px; }
+        .log-entry { padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .log-time { color: #666; margin-right: 8px; }
         .log-text { color: #aaa; }
         .log-text.success { color: #00ff88; }
         .log-text.warning { color: #ffaa00; }
         .log-text.error { color: #ff6b6b; }
         
+        /* Architecture */
+        .architecture {
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+        .arch-layer {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 8px 0;
+        }
+        .arch-box {
+            background: linear-gradient(135deg, rgba(0,217,255,0.2), rgba(0,255,136,0.1));
+            border: 1px solid rgba(0,217,255,0.3);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+        .arch-box.active { border-color: #00ff88; background: rgba(0,255,136,0.2); }
+        .arch-label { color: #666; font-size: 0.7rem; margin-bottom: 4px; }
+        
         /* Footer */
         .footer {
             text-align: center;
-            padding: 30px;
+            padding: 25px;
             color: #666;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         .footer a { color: #00d9ff; text-decoration: none; }
         
-        /* Language Switcher */
-        .lang-switch {
-            position: fixed;
-            top: 20px;
-            right: 20px;
+        /* Full Width */
+        .full-width { grid-column: 1 / -1; }
+        
+        /* Tab Navigation */
+        .tab-nav {
             display: flex;
-            gap: 10px;
-            z-index: 100;
+            gap: 8px;
+            margin-bottom: 15px;
         }
-        .lang-btn {
-            background: rgba(255,255,255,0.1);
+        .tab-btn {
+            flex: 1;
+            background: rgba(0,0,0,0.3);
             border: 1px solid rgba(255,255,255,0.2);
-            color: #fff;
-            padding: 8px 16px;
+            color: #888;
+            padding: 10px;
             border-radius: 8px;
             cursor: pointer;
-            text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
+            text-align: center;
+            transition: all 0.2s;
         }
-        .lang-btn:hover { background: rgba(255,255,255,0.2); }
-        .lang-btn.active { background: rgba(0,255,136,0.2); border-color: #00ff88; }
+        .tab-btn:hover { border-color: #00d9ff; }
+        .tab-btn.active { background: rgba(0,217,255,0.2); border-color: #00d9ff; color: #fff; }
+        
+        /* Voice Scenarios */
+        .voice-scenario-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .voice-scenario {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .voice-scenario:hover { border-color: #00d9ff; }
+        .voice-scenario.active { border-color: #00ff88; background: rgba(0,255,136,0.1); }
+        .voice-scenario-title { font-weight: bold; font-size: 0.85rem; }
+        .voice-scenario-desc { color: #666; font-size: 0.75rem; margin-top: 2px; }
+        .voice-scenario-icon { font-size: 1.5rem; margin-bottom: 5px; }
+        
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .metric-box {
+            background: rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-label { color: #666; font-size: 0.75rem; }
+        .metric-value { color: #00d9ff; font-size: 1.1rem; font-weight: bold; margin-top: 3px; }
     </style>
 </head>
 <body>
@@ -306,165 +441,258 @@
         <!-- Header -->
         <div class="header">
             <h1>🏦 银行客户体验演示</h1>
-            <p>AI驱动的情绪识别与服务优化交互演示</p>
+            <p>AI驱动的多模态情绪识别与服务优化系统</p>
             <div class="badge">🔬 实时模拟模式</div>
         </div>
         
         <!-- Main Content -->
         <div class="main-grid">
-            <!-- Left: Input -->
+            <!-- Card 1: Visual Emotion -->
             <div class="card">
-                <h2>📝 输入客户表达</h2>
+                <h2>😊 视觉情绪分析</h2>
                 
-                <div class="input-group">
-                    <label>客户表达内容（中文/英文）</label>
-                    <textarea id="inputText" placeholder="输入客户消息... 例如：等太久了，我要投诉！"></textarea>
-                </div>
-                
-                <!-- Quick Scenarios -->
-                <div class="input-group">
-                    <label>快速测试场景</label>
-                    <div class="scenarios">
-                        <button class="scenario-btn" onclick="loadScenario('waiting')">
-                            <div class="scenario-name">⏰ 等待焦虑</div>
-                            <div class="scenario-desc">客户等待时间过长</div>
-                        </button>
-                        <button class="scenario-btn" onclick="loadScenario('failure')">
-                            <div class="scenario-name">🔧 自助服务失败</div>
-                            <div class="scenario-desc">操作持续失败</div>
-                        </button>
-                        <button class="scenario-btn" onclick="loadScenario('complaint')">
-                            <div class="scenario-name">😠 投诉</div>
-                            <div class="scenario-desc">客户要投诉</div>
-                        </button>
-                        <button class="scenario-btn" onclick="loadScenario('satisfied')">
-                            <div class="scenario-name">😊 满意</div>
-                            <div class="scenario-desc">客户满意</div>
-                        </button>
-                    </div>
-                </div>
-                
-                <button class="btn" id="analyzeBtn" onclick="analyzeText()">
-                    🚀 分析情绪
-                </button>
-                
-                <!-- Logs -->
-                <div class="result-section">
-                    <h3>📋 分析日志</h3>
-                    <div class="logs" id="logs">
-                        <div class="log-entry">
-                            <span class="log-time">--:--:--</span>
-                            <span class="log-text">系统就绪。请输入文本或选择场景开始分析。</span>
+                <div class="video-container" id="videoContainer">
+                    <video id="video" autoplay muted playsinline></video>
+                    <canvas id="faceCanvas"></canvas>
+                    <div class="video-overlay" id="videoOverlay" onclick="startVideo()">
+                        <div class="video-overlay-text">
+                            <div class="icon">📷</div>
+                            <div>点击启用摄像头</div>
                         </div>
                     </div>
                 </div>
+                
+                <div class="tab-nav">
+                    <button class="tab-btn active" onclick="setFaceEmotion('neutral')">中性 😊</button>
+                    <button class="tab-btn" onclick="setFaceEmotion('happy')">开心 😄</button>
+                    <button class="tab-btn" onclick="setFaceEmotion('anxious')">焦虑 😰</button>
+                    <button class="tab-btn" onclick="setFaceEmotion('angry')">愤怒 😠</button>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div>
+                        <div style="color: #666; font-size: 0.8rem;">检测情绪</div>
+                        <div style="color: #00ff88; font-size: 1.2rem; font-weight: bold;" id="faceEmotion">--</div>
+                    </div>
+                    <div>
+                        <div style="color: #666; font-size: 0.8rem;">置信度</div>
+                        <div style="color: #00d9ff; font-size: 1.2rem; font-weight: bold;" id="faceConf">--</div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 12px;">
+                    <div style="display: flex; justify-content: space-between; color: #888; font-size: 0.8rem;">
+                        <span>置信度</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="faceProgress" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <button class="btn" style="width: 100%; margin-top: 12px;" onclick="simulateFaceAnalysis()">
+                    🔍 分析面部
+                </button>
             </div>
             
-            <!-- Right: Results -->
+            <!-- Card 2: Voice Emotion -->
             <div class="card">
-                <h2>📊 分析结果</h2>
+                <h2>🎤 语音情绪分析</h2>
                 
-                <div id="resultsPlaceholder" style="text-align: center; padding: 60px 20px; color: #666;">
-                    <div style="font-size: 4rem; margin-bottom: 20px;">🔍</div>
-                    <p>分析结果将在此处显示</p>
-                    <p style="font-size: 0.9rem; margin-top: 10px;">输入客户文本并点击"分析情绪"</p>
+                <div class="audio-container">
+                    <canvas id="waveformCanvas" class="waveform-canvas"></canvas>
                 </div>
                 
-                <div id="results" style="display: none;">
-                    <!-- Emotion Display -->
-                    <div class="emotion-display">
-                        <div class="emotion-emoji" id="emotionEmoji">😐</div>
-                        <div class="emotion-info">
-                            <div class="emotion-name" id="emotionName">中性</div>
-                            <div class="emotion-confidence" id="emotionConfidence">置信度: 0%</div>
-                        </div>
+                <div class="audio-bars" id="audioBars">
+                    <div class="audio-bar" style="height: 20px;"></div>
+                    <div class="audio-bar" style="height: 35px;"></div>
+                    <div class="audio-bar" style="height: 50px;"></div>
+                    <div class="audio-bar" style="height: 40px;"></div>
+                    <div class="audio-bar" style="height: 60px;"></div>
+                    <div class="audio-bar" style="height: 45px;"></div>
+                    <div class="audio-bar" style="height: 30px;"></div>
+                    <div class="audio-bar" style="height: 55px;"></div>
+                    <div class="audio-bar" style="height: 40px;"></div>
+                    <div class="audio-bar" style="height: 25px;"></div>
+                    <div class="audio-bar" style="height: 45px;"></div>
+                    <div class="audio-bar" style="height: 35px;"></div>
+                    <div class="audio-bar" style="height: 50px;"></div>
+                    <div class="audio-bar" style="height: 30px;"></div>
+                    <div class="audio-bar" style="height: 40px;"></div>
+                </div>
+                
+                <div class="voice-scenario-list">
+                    <div class="voice-scenario" onclick="selectVoiceScenario('calm')">
+                        <div class="voice-scenario-icon">😌</div>
+                        <div class="voice-scenario-title">平静语音</div>
+                        <div class="voice-scenario-desc">正常服务语调</div>
                     </div>
-                    
-                    <!-- Confidence Bar -->
+                    <div class="voice-scenario" onclick="selectVoiceScenario('tense')">
+                        <div class="voice-scenario-icon">😰</div>
+                        <div class="voice-scenario-title">紧张语音</div>
+                        <div class="voice-scenario-desc">压力上升</div>
+                    </div>
+                    <div class="voice-scenario" onclick="selectVoiceScenario('angry')">
+                        <div class="voice-scenario-icon">😠</div>
+                        <div class="voice-scenario-title">愤怒语调</div>
+                        <div class="voice-scenario-desc">高度激动</div>
+                    </div>
+                    <div class="voice-scenario" onclick="selectVoiceScenario('frustrated')">
+                        <div class="voice-scenario-icon">😤</div>
+                        <div class="voice-scenario-title">受挫语气</div>
+                        <div class="voice-scenario-desc">反复失败</div>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                     <div>
-                        <div style="display: flex; justify-content: space-between; color: #888; font-size: 0.85rem; margin-bottom: 5px;">
-                            <span>置信度</span>
-                            <span id="confidencePercent">0%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="confidenceBar" style="width: 0%"></div>
-                        </div>
+                        <div style="color: #666; font-size: 0.8rem;">语音情绪</div>
+                        <div style="color: #00ff88; font-size: 1.2rem; font-weight: bold;" id="voiceEmotion">--</div>
                     </div>
+                    <div>
+                        <div style="color: #666; font-size: 0.8rem;">音调分析</div>
+                        <div style="color: #00d9ff; font-size: 1.2rem; font-weight: bold;" id="voicePitch">--</div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 12px;">
+                    <div style="display: flex; justify-content: space-between; color: #888; font-size: 0.8rem;">
+                        <span>能量等级</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="voiceProgress" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <button class="btn" style="width: 100%; margin-top: 12px;" onclick="simulateVoiceAnalysis()">
+                    🎯 分析语音
+                </button>
+            </div>
+            
+            <!-- Card 3: Text Input & Results -->
+            <div class="card">
+                <h2>💬 文本情绪分析</h2>
+                
+                <div class="input-group">
+                    <label>客户表达内容</label>
+                    <textarea id="inputText" placeholder="输入客户消息..."></textarea>
+                </div>
+                
+                <div class="scenarios">
+                    <button class="scenario-btn" onclick="loadScenario('waiting')">
+                        <div class="scenario-name">⏰ 等待焦虑</div>
+                        <div class="scenario-desc">等待时间过长</div>
+                    </button>
+                    <button class="scenario-btn" onclick="loadScenario('failure')">
+                        <div class="scenario-name">🔧 自助失败</div>
+                        <div class="scenario-desc">服务操作失败</div>
+                    </button>
+                    <button class="scenario-btn" onclick="loadScenario('complaint')">
+                        <div class="scenario-name">😠 投诉</div>
+                        <div class="scenario-desc">客户要投诉</div>
+                    </button>
+                    <button class="scenario-btn" onclick="loadScenario('satisfied')">
+                        <div class="scenario-name">😊 满意</div>
+                        <div class="scenario-desc">客户满意</div>
+                    </button>
+                </div>
+                
+                <button class="btn" style="width: 100%;" onclick="analyzeText()">
+                    🚀 分析文本
+                </button>
+                
+                <!-- Combined Results -->
+                <div class="result-section">
+                    <h3>📊 多模态融合结果</h3>
                     
-                    <!-- Modalities -->
                     <div class="modalities">
-                        <div class="modality active" id="modText">
+                        <div class="modality" id="modText">
                             <div class="modality-icon">💬</div>
                             <div class="modality-name">文本</div>
                             <div class="modality-value" id="textConf">--</div>
                         </div>
-                        <div class="modality inactive" id="modFacial">
+                        <div class="modality" id="modFacial">
                             <div class="modality-icon">😊</div>
                             <div class="modality-name">面部</div>
-                            <div class="modality-value">--</div>
+                            <div class="modality-value" id="facialConf">--</div>
                         </div>
-                        <div class="modality inactive" id="modVocal">
+                        <div class="modality" id="modVocal">
                             <div class="modality-icon">🎤</div>
                             <div class="modality-name">语音</div>
-                            <div class="modality-value">--</div>
+                            <div class="modality-value" id="vocalConf">--</div>
                         </div>
                     </div>
                     
-                    <!-- Alert -->
+                    <div class="emotion-display">
+                        <div class="emotion-emoji" id="finalEmoji">😐</div>
+                        <div class="emotion-info">
+                            <div class="emotion-name" id="finalEmotion">--</div>
+                            <div class="emotion-confidence" id="finalConfidence">置信度: --</div>
+                        </div>
+                    </div>
+                    
                     <div class="alert" id="alertBox" style="display: none;">
                         <span class="alert-icon">⚠️</span>
                         <span class="alert-text" id="alertText"></span>
                         <div class="alert-recommendation" id="alertRecommendation"></div>
                     </div>
                     
-                    <!-- Extended Results -->
-                    <div class="result-section">
-                        <h3>📈 附加指标</h3>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                            <div>
-                                <div style="color: #666; font-size: 0.85rem;">效价</div>
-                                <div style="font-size: 1.2rem; color: #00d9ff;" id="valence">--</div>
-                            </div>
-                            <div>
-                                <div style="color: #666; font-size: 0.85rem;">唤醒度</div>
-                                <div style="font-size: 1.2rem; color: #00d9ff;" id="arousal">--</div>
-                            </div>
-                            <div>
-                                <div style="color: #666; font-size: 0.85rem;">处理时间</div>
-                                <div style="font-size: 1.2rem; color: #00d9ff;" id="procTime">--</div>
-                            </div>
-                            <div>
-                                <div style="color: #666; font-size: 0.85rem;">模型</div>
-                                <div style="font-size: 1.2rem; color: #00d9ff;">Mock-v1.0</div>
-                            </div>
+                    <div class="metrics-grid" style="margin-top: 15px;">
+                        <div class="metric-box">
+                            <div class="metric-label">效价</div>
+                            <div class="metric-value" id="valence">--</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-label">唤醒度</div>
+                            <div class="metric-value" id="arousal">--</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-label">融合权重</div>
+                            <div class="metric-value" id="fusion">--</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-label">风险等级</div>
+                            <div class="metric-value" id="risk">--</div>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <!-- Architecture Diagram -->
+            <!-- Logs Card -->
             <div class="card full-width">
-                <h2>🏗️ 系统架构</h2>
+                <h2>📋 分析日志</h2>
+                <div class="logs" id="logs">
+                    <div class="log-entry">
+                        <span class="log-time">--:--:--</span>
+                        <span class="log-text">系统就绪。启用摄像头或输入文本开始分析。</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Architecture Card -->
+            <div class="card full-width">
+                <h2>🏗️ 系统架构 - 端侧AI处理</h2>
                 <div class="architecture">
+                    <div class="arch-label">输入层</div>
                     <div class="arch-layer">
-                        <div class="arch-box">Web门户</div>
-                        <div class="arch-box">移动App</div>
-                        <div class="arch-box">自助终端</div>
+                        <div class="arch-box">📷 摄像头</div>
+                        <div class="arch-box">🎤 麦克风</div>
+                        <div class="arch-box">⌨️ 文本输入</div>
                     </div>
-                    <div style="color: #666; margin: 10px 0;">⬇️</div>
+                    <div style="color: #666; margin: 8px 0;">⬇️ 端侧AI处理（设备端）</div>
                     <div class="arch-layer">
-                        <div class="arch-box active" id="archEmotion">情绪识别 (8001)</div>
-                        <div class="arch-box" id="archEmpathy">共情AI (8002)</div>
-                        <div class="arch-box" id="archJourney">客户旅程 (8003)</div>
-                        <div class="arch-box" id="archFlow">服务流程 (8004)</div>
-                        <div class="arch-box" id="archSpace">空间优化 (8005)</div>
-                        <div class="arch-box" id="archPrivacy">隐私保护 (8006)</div>
+                        <div class="arch-box active" id="archFace">FaceNet-Lite<br><small>面部情绪</small></div>
+                        <div class="arch-box" id="archVoice">Wav2Vec-Onnx<br><small>语音情绪</small></div>
+                        <div class="arch-box" id="archText">BERT-Edge<br><small>文本情绪</small></div>
                     </div>
-                    <div style="color: #666; margin: 10px 0;">⬇️</div>
+                    <div style="color: #666; margin: 8px 0;">⬇️ 多模态融合</div>
                     <div class="arch-layer">
-                        <div class="arch-box">PostgreSQL</div>
-                        <div class="arch-box">Redis</div>
-                        <div class="arch-box">Kafka</div>
+                        <div class="arch-box" id="archFusion">加权融合<br><small>0.40·面部 + 0.35·语音 + 0.25·文本</small></div>
+                    </div>
+                    <div style="color: #666; margin: 8px 0;">⬇️ 服务层</div>
+                    <div class="arch-layer">
+                        <div class="arch-box">共情AI (8002)</div>
+                        <div class="arch-box">服务流程 (8004)</div>
+                        <div class="arch-box">客户旅程 (8003)</div>
                     </div>
                 </div>
             </div>
@@ -472,48 +700,304 @@
         
         <!-- Footer -->
         <div class="footer">
-            <p>银行客户体验提升系统</p>
-            <p style="margin-top: 10px;">
-                <a href="https://github.com/JACKYwyj/bank-customer-experience" target="_blank">GitHub仓库</a> | 
-                <a href="mailto:1230009401@student.must.edu.mo">联系: 1230009401@student.must.edu.mo</a>
+            <p>银行客户体验提升系统 | 端侧AI演示</p>
+            <p style="margin-top: 8px;">
+                <a href="https://github.com/JACKYwyj/bank-customer-experience" target="_blank">GitHub</a> | 
+                <a href="mailto:1230009401@student.must.edu.mo">联系方式</a>
             </p>
         </div>
     </div>
     
     <script>
-        // 情绪映射
-        const emotionMap = {
-            'neutral': { emoji: '😐', color: '#888', name: '中性' },
-            'anxiety': { emoji: '😰', color: '#ffaa00', name: '焦虑' },
-            'anger': { emoji: '😠', color: '#ff6b6b', name: '愤怒' },
-            'frustration': { emoji: '😤', color: '#ff8866', name: '受挫' },
-            'confusion': { emoji: '😕', color: '#aaaa00', name: '困惑' },
-            'satisfaction': { emoji: '😊', color: '#00ff88', name: '满意' }
+        // State
+        let stream = null;
+        let faceAnalysisInterval = null;
+        let voiceAnalysisInterval = null;
+        let currentFaceEmotion = 'neutral';
+        let currentVoiceScenario = null;
+        
+        // Emotion mappings
+        const faceEmotions = {
+            'neutral': { emoji: '😐', name: '中性', color: '#888', conf: 0.72 },
+            'happy': { emoji: '😊', name: '开心', color: '#00ff88', conf: 0.89 },
+            'anxious': { emoji: '😰', name: '焦虑', color: '#ffaa00', conf: 0.78 },
+            'angry': { emoji: '😠', name: '愤怒', color: '#ff6b6b', conf: 0.85 }
         };
         
-        // 告警规则
-        const alertRules = {
-            'anxiety': { threshold: 0.5, duration: 60, type: 'warning', text: '检测到客户焦虑', recommendation: '解释等待时间并持续观察' },
-            'anger': { threshold: 0.8, duration: 30, type: 'error', text: '高愤怒风险！', recommendation: '建议立即人工介入' },
-            'frustration': { threshold: 0.6, duration: 90, type: 'warning', text: '检测到客户受挫', recommendation: '提供服务修复选项' }
+        const voiceEmotions = {
+            'calm': { emoji: '😌', name: '平静', pitch: '180-220Hz', energy: 0.4 },
+            'tense': { emoji: '😰', name: '紧张', pitch: '280-350Hz', energy: 0.65 },
+            'angry': { emoji: '😠', name: '愤怒', pitch: '350-450Hz', energy: 0.88 },
+            'frustrated': { emoji: '😤', name: '受挫', pitch: '250-320Hz', energy: 0.72 }
         };
         
-        // 场景文本
-        const scenarios = {
+        const textScenarios = {
             'waiting': '等太久了，还要等多久啊？',
             'failure': '这个机器怎么一直不能用，我已经试了好几次了！',
             'complaint': '太差了！完全不能接受这种服务，我要投诉！',
             'satisfied': '谢谢你们，服务很好，很满意！'
         };
         
-        // 加载场景
+        const alertRules = {
+            '焦虑': { type: 'warning', text: '检测到客户焦虑', recommendation: '解释等待时间并持续观察' },
+            '愤怒': { type: 'error', text: '高愤怒风险！', recommendation: '建议立即人工介入' },
+            '受挫': { type: 'warning', text: '检测到客户受挫', recommendation: '提供服务修复选项' }
+        };
+        
+        // Start camera
+        async function startVideo() {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const video = document.getElementById('video');
+                video.srcObject = stream;
+                document.getElementById('videoOverlay').classList.add('hidden');
+                addLog('摄像头已启用 - 面部检测激活', 'success');
+                
+                startFaceDetection();
+            } catch (err) {
+                addLog('摄像头访问被拒绝 - 使用模拟模式', 'warning');
+                document.getElementById('videoOverlay').innerHTML = `
+                    <div class="video-overlay-text">
+                        <div class="icon">🔒</div>
+                        <div>摄像头被拒绝</div>
+                        <div style="font-size: 0.8rem; margin-top: 5px;">使用模拟模式</div>
+                    </div>
+                `;
+                document.getElementById('videoOverlay').classList.remove('hidden');
+                document.getElementById('videoOverlay').onclick = null;
+                document.getElementById('videoOverlay').style.cursor = 'default';
+            }
+        }
+        
+        // Face detection simulation
+        function startFaceDetection() {
+            const canvas = document.getElementById('faceCanvas');
+            const ctx = canvas.getContext('2d');
+            const video = document.getElementById('video');
+            
+            video.addEventListener('loadedmetadata', () => {
+                canvas.width = video.videoWidth || 320;
+                canvas.height = video.videoHeight || 240;
+            });
+            
+            faceAnalysisInterval = setInterval(() => {
+                if (!stream) return;
+                
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                const w = canvas.width;
+                const h = canvas.height;
+                const cx = w / 2;
+                const cy = h / 2;
+                const fw = w * 0.5;
+                const fh = h * 0.6;
+                
+                ctx.strokeStyle = '#00ff88';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.strokeRect(cx - fw/2, cy - fh/2, fw, fh);
+                ctx.setLineDash([]);
+                
+                const points = [
+                    [cx - fw*0.2, cy - fh*0.15],
+                    [cx + fw*0.2, cy - fh*0.15],
+                    [cx, cy],
+                    [cx - fw*0.15, cy + fh*0.2],
+                    [cx + fw*0.15, cy + fh*0.2],
+                ];
+                
+                points.forEach(([x, y]) => {
+                    ctx.beginPath();
+                    ctx.arc(x, y, 4, 0, Math.PI * 2);
+                    ctx.fillStyle = '#00ff88';
+                    ctx.fill();
+                });
+                
+                const emotion = faceEmotions[currentFaceEmotion];
+                ctx.fillStyle = emotion.color;
+                ctx.font = 'bold 14px sans-serif';
+                ctx.fillText(`${emotion.name} (${(emotion.conf * 100).toFixed(0)}%)`, 10, 20);
+            }, 100);
+        }
+        
+        // Set face emotion
+        function setFaceEmotion(type) {
+            currentFaceEmotion = type;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const emotion = faceEmotions[type];
+            document.getElementById('faceEmotion').textContent = emotion.name;
+            document.getElementById('faceEmotion').style.color = emotion.color;
+            document.getElementById('faceConf').textContent = `${(emotion.conf * 100).toFixed(0)}%`;
+            document.getElementById('faceProgress').style.width = `${emotion.conf * 100}%`;
+            
+            addLog(`面部情绪设置为: ${emotion.name}`, '');
+        }
+        
+        // Simulate face analysis
+        function simulateFaceAnalysis() {
+            const emotion = faceEmotions[currentFaceEmotion];
+            document.getElementById('facialConf').textContent = `${(emotion.conf * 100).toFixed(0)}%`;
+            document.getElementById('modFacial').classList.add('active');
+            
+            addLog(`面部分析完成: ${emotion.name} (${(emotion.conf * 100).toFixed(1)}%)`, 'success');
+            
+            checkAutoFuse();
+        }
+        
+        // Select voice scenario
+        function selectVoiceScenario(scenario) {
+            currentVoiceScenario = scenario;
+            document.querySelectorAll('.voice-scenario').forEach(s => s.classList.remove('active'));
+            event.target.closest('.voice-scenario').classList.add('active');
+            
+            const voice = voiceEmotions[scenario];
+            document.getElementById('voiceEmotion').textContent = voice.name;
+            document.getElementById('voicePitch').textContent = voice.pitch;
+            document.getElementById('voiceProgress').style.width = `${voice.energy * 100}%`;
+            
+            startAudioVisualization(voice.energy);
+            
+            addLog(`语音场景已选择: ${voice.name}`, '');
+        }
+        
+        // Audio visualization
+        function startAudioVisualization(energy) {
+            const bars = document.querySelectorAll('.audio-bar');
+            
+            if (voiceAnalysisInterval) clearInterval(voiceAnalysisInterval);
+            
+            voiceAnalysisInterval = setInterval(() => {
+                bars.forEach(bar => {
+                    const height = Math.random() * 60 * energy + 10;
+                    bar.style.height = `${height}px`;
+                });
+            }, 100);
+        }
+        
+        // Simulate voice analysis
+        function simulateVoiceAnalysis() {
+            if (!currentVoiceScenario) {
+                addLog('请先选择一个语音场景', 'warning');
+                return;
+            }
+            
+            const voice = voiceEmotions[currentVoiceScenario];
+            const conf = 0.7 + Math.random() * 0.2;
+            document.getElementById('vocalConf').textContent = `${(conf * 100).toFixed(0)}%`;
+            document.getElementById('modVocal').classList.add('active');
+            
+            addLog(`语音分析完成: ${voice.name} (${(conf * 100).toFixed(1)}%)`, 'success');
+            
+            checkAutoFuse();
+        }
+        
+        // Load text scenario
         function loadScenario(name) {
-            document.getElementById('inputText').value = scenarios[name];
+            document.getElementById('inputText').value = textScenarios[name];
             document.querySelectorAll('.scenario-btn').forEach(btn => btn.classList.remove('active'));
             event.target.closest('.scenario-btn').classList.add('active');
         }
         
-        // 添加日志
+        // Analyze text
+        function analyzeText() {
+            const text = document.getElementById('inputText').value.trim();
+            if (!text) {
+                addLog('请输入要分析的文本', 'warning');
+                return;
+            }
+            
+            const conf = mockTextAnalysis(text);
+            document.getElementById('textConf').textContent = `${(conf * 100).toFixed(0)}%`;
+            document.getElementById('modText').classList.add('active');
+            
+            addLog(`文本分析完成: "${text.substring(0, 30)}..."`, 'success');
+            
+            checkAutoFuse();
+        }
+        
+        // Mock text analysis
+        function mockTextAnalysis(text) {
+            const negativeKeywords = ['等太久', '投诉', '生气', '着急', '不满意', '差', '烂', '不能用', '烦', '不安'];
+            const positiveKeywords = ['好', '谢谢', '满意', '快', '不错', '棒', '赞'];
+            
+            let negScore = 0, posScore = 0;
+            negativeKeywords.forEach(kw => { if (text.includes(kw)) negScore = Math.max(negScore, 0.85); });
+            positiveKeywords.forEach(kw => { if (text.includes(kw)) posScore = Math.max(posScore, 0.8); });
+            
+            return negScore > posScore ? negScore : posScore > 0 ? posScore : 0.6;
+        }
+        
+        // Check if all modalities have data and auto-fuse
+        function checkAutoFuse() {
+            const textConf = document.getElementById('textConf').textContent;
+            const facialConf = document.getElementById('facialConf').textContent;
+            const vocalConf = document.getElementById('vocalConf').textContent;
+            
+            if (textConf !== '--' && facialConf !== '--' && vocalConf !== '--') {
+                addLog('所有模态数据就绪 - 开始融合...', 'success');
+                setTimeout(performFusion, 500);
+            }
+        }
+        
+        // Perform multi-modal fusion
+        function performFusion() {
+            const textVal = parseFloat(document.getElementById('textConf').textContent) / 100;
+            const facialVal = parseFloat(document.getElementById('facialConf').textContent) / 100;
+            const vocalVal = parseFloat(document.getElementById('vocalConf').textContent) / 100;
+            
+            // Weighted fusion: Face=0.40, Voice=0.35, Text=0.25
+            const fusedScore = textVal * 0.25 + facialVal * 0.40 + vocalVal * 0.35;
+            
+            let finalEmotion, finalEmoji;
+            if (fusedScore > 0.75) {
+                finalEmotion = '满意';
+                finalEmoji = '😊';
+            } else if (fusedScore > 0.5) {
+                finalEmotion = '焦虑';
+                finalEmoji = '😰';
+            } else if (fusedScore < 0.3) {
+                finalEmotion = '愤怒';
+                finalEmoji = '😠';
+            } else {
+                finalEmotion = '中性';
+                finalEmoji = '😐';
+            }
+            
+            document.getElementById('finalEmotion').textContent = finalEmotion;
+            document.getElementById('finalEmoji').textContent = finalEmoji;
+            document.getElementById('finalConfidence').textContent = `融合置信度: ${(fusedScore * 100).toFixed(1)}%`;
+            
+            // Metrics
+            document.getElementById('valence').textContent = fusedScore > 0.5 ? '+' : '-';
+            document.getElementById('valence').style.color = fusedScore > 0.5 ? '#00ff88' : '#ff6b6b';
+            document.getElementById('arousal').textContent = (fusedScore * 0.8 + 0.2).toFixed(2);
+            document.getElementById('fusion').textContent = '0.40:0.35:0.25';
+            document.getElementById('risk').textContent = fusedScore < 0.4 ? '高' : (fusedScore < 0.6 ? '中' : '低');
+            document.getElementById('risk').style.color = fusedScore < 0.4 ? '#ff6b6b' : (fusedScore < 0.6 ? '#ffaa00' : '#00ff88');
+            
+            // Alert
+            if (alertRules[finalEmotion]) {
+                const alert = alertRules[finalEmotion];
+                document.getElementById('alertBox').style.display = 'block';
+                document.getElementById('alertBox').className = `alert ${alert.type}`;
+                document.getElementById('alertText').textContent = alert.text;
+                document.getElementById('alertRecommendation').textContent = alert.recommendation;
+                addLog(`告警: ${alert.text}`, 'warning');
+            } else {
+                document.getElementById('alertBox').style.display = 'none';
+            }
+            
+            document.getElementById('archFace').classList.add('active');
+            document.getElementById('archVoice').classList.add('active');
+            document.getElementById('archText').classList.add('active');
+            document.getElementById('archFusion').classList.add('active');
+            
+            addLog(`融合完成: ${finalEmotion} (${(fusedScore * 100).toFixed(1)}%)`, 'success');
+        }
+        
+        // Add log entry
         function addLog(text, type = '') {
             const logs = document.getElementById('logs');
             const time = new Date().toLocaleTimeString();
@@ -524,127 +1008,32 @@
             logs.scrollTop = logs.scrollHeight;
         }
         
-        // 分析文本
-        function analyzeText() {
-            const text = document.getElementById('inputText').value.trim();
-            if (!text) {
-                alert('请输入要分析的文本');
-                return;
-            }
+        // Draw waveform on load
+        window.onload = function() {
+            const canvas = document.getElementById('waveformCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
             
-            const btn = document.getElementById('analyzeBtn');
-            btn.disabled = true;
-            btn.textContent = '⏳ 分析中...';
-            
-            addLog('开始情绪分析...', '');
-            addLog(`输入: "${text.substring(0, 50)}${text.length > 50 ? '...' : ''}"`, '');
-            
-            setTimeout(() => {
-                const result = mockAnalyze(text);
-                displayResults(result);
-                btn.disabled = false;
-                btn.textContent = '🚀 分析情绪';
-            }, 800);
-        }
-        
-        // 模拟分析
-        function mockAnalyze(text) {
-            const startTime = Date.now();
-            
-            const negativeKeywords = {
-                '等太久': 0.85, '投诉': 0.95, '生气': 0.85, '着急': 0.7,
-                '不满意': 0.8, '慢': 0.6, '差': 0.75, '烂': 0.9, '垃圾': 0.95,
-                '烦': 0.6, '不安': 0.6, '不能用': 0.75, '一直': 0.7
-            };
-            const positiveKeywords = {
-                '好': 0.6, '谢谢': 0.5, '满意': 0.85, '快': 0.6, '不错': 0.7, '棒': 0.85, '赞': 0.75
-            };
-            
-            let negScore = 0, posScore = 0;
-            for (const [kw, score] of Object.entries(negativeKeywords)) {
-                if (text.includes(kw)) negScore = Math.max(negScore, score);
-            }
-            for (const [kw, score] of Object.entries(positiveKeywords)) {
-                if (text.includes(kw)) posScore = Math.max(posScore, score);
-            }
-            
-            let emotion, confidence;
-            if (negScore > posScore && negScore > 0.5) {
-                if (negScore > 0.8) { emotion = 'anger'; }
-                else if (negScore > 0.6) { emotion = 'frustration'; }
-                else { emotion = 'anxiety'; }
-                confidence = Math.min(0.95, negScore + 0.1);
-            } else if (posScore > negScore && posScore > 0.4) {
-                emotion = 'satisfaction';
-                confidence = Math.min(0.9, posScore + 0.1);
-            } else {
-                emotion = 'neutral';
-                confidence = 0.6;
-            }
-            
-            const valence = emotion === 'satisfaction' ? 0.6 : emotion === 'neutral' ? 0 : -0.5;
-            const arousal = emotion === 'anger' ? 0.85 : emotion === 'anxiety' ? 0.65 : 0.4;
-            
-            return {
-                emotion,
-                confidence,
-                textConf: confidence,
-                valence: valence.toFixed(2),
-                arousal: arousal.toFixed(2),
-                procTime: `${(Date.now() - startTime + Math.random() * 50).toFixed(0)}ms`,
-                alert: alertRules[emotion]
-            };
-        }
-        
-        // 显示结果
-        function displayResults(result) {
-            document.getElementById('resultsPlaceholder').style.display = 'none';
-            document.getElementById('results').style.display = 'block';
-            
-            const emotionData = emotionMap[result.emotion];
-            
-            document.getElementById('emotionEmoji').textContent = emotionData.emoji;
-            document.getElementById('emotionName').textContent = emotionData.name;
-            document.getElementById('emotionName').style.color = emotionData.color;
-            document.getElementById('emotionConfidence').textContent = `置信度: ${(result.confidence * 100).toFixed(1)}%`;
-            
-            const confPercent = result.confidence * 100;
-            document.getElementById('confidencePercent').textContent = `${confPercent.toFixed(1)}%`;
-            document.getElementById('confidenceBar').style.width = `${confPercent}%`;
-            
-            document.getElementById('textConf').textContent = `${(result.textConf * 100).toFixed(0)}%`;
-            document.getElementById('modText').classList.add('active');
-            document.getElementById('modText').classList.remove('inactive');
-            
-            if (result.alert) {
-                const alertBox = document.getElementById('alertBox');
-                alertBox.style.display = 'block';
-                alertBox.className = `alert ${result.alert.type}`;
-                document.getElementById('alertText').textContent = result.alert.text;
-                document.getElementById('alertRecommendation').textContent = result.alert.recommendation;
+            function drawWave() {
+                ctx.fillStyle = '#111';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
                 
-                if (result.emotion === 'anger') {
-                    document.getElementById('archEmpathy').classList.add('active');
-                    document.getElementById('archFlow').classList.add('active');
-                } else {
-                    document.getElementById('archEmpathy').classList.add('active');
+                ctx.strokeStyle = '#00d9ff';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                
+                for (let x = 0; x < canvas.width; x++) {
+                    const y = canvas.height/2 + Math.sin(x * 0.05) * 10 * Math.sin(Date.now() * 0.001);
+                    if (x === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
                 }
-            } else {
-                document.getElementById('alertBox').style.display = 'none';
+                ctx.stroke();
+                
+                requestAnimationFrame(drawWave);
             }
-            
-            document.getElementById('valence').textContent = result.valence;
-            document.getElementById('arousal').textContent = result.arousal;
-            document.getElementById('procTime').textContent = result.procTime;
-            
-            addLog(`检测到情绪: ${emotionData.name} (${(result.confidence * 100).toFixed(1)}%)`, 'success');
-            if (result.alert) {
-                addLog(`告警触发: ${result.alert.text}`, 'warning');
-            } else {
-                addLog('无告警触发 - 正常操作', 'success');
-            }
-            addLog(`处理完成，耗时 ${result.procTime}`, '');
-        }
+            drawWave();
+        };
     </script>
 </body>
 </html>
