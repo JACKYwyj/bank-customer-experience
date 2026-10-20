@@ -8,7 +8,24 @@
 
 ---
 
-## 一、项目简介
+## 📑 目录导航
+
+| 章节 | 内容 |
+|------|------|
+| [🔬 项目简介](#1-项目简介) | 执行摘要、核心价值、技术架构 |
+| [🧠 核心模块](#2-核心模块) | 6个微服务模块详细说明 |
+| [📁 项目结构](#3-项目结构) | 完整目录结构 |
+| [🚀 快速开始](#4-快速开始) | 环境安装、测试运行、服务启动 |
+| [🧪 模拟测试](#5-模拟测试) | 6种预设场景测试 |
+| [🚀 部署指南](#6-部署指南) | Docker Compose、Kubernetes |
+| [🔧 开发指南](#7-开发指南) | 代码规范、提交规范 |
+| [📊 后续计划](#8-后续开发计划) | 四阶段开发路线图 |
+| [📚 参考资料](#9-参考资料) | 引用文献 |
+| [📄 许可证](#10-许可证) | MIT许可证 |
+
+---
+
+## 1. 项目简介
 
 ### 1.1 执行摘要
 
@@ -54,13 +71,13 @@
 
 ---
 
-## 二、核心模块
+## 2. 核心模块
 
-### 2.1 情绪识别 (Emotion Recognition) - 端口 8001
+### 2.1 情绪识别 (Emotion Recognition) - [端口 8001](src/emotion_recognition/)
 
 **功能**：融合面部表情、语音语调、文本语义三个维度的情绪识别。
 
-**多模态融合权重（原型初始参数）：**
+**文档**：[详细设计](docs/EMOTION_RECOGNITION_ARCHITECTURE.md)
 
 | 模态 | 权重 | 有效阈值 |
 |------|------|----------|
@@ -68,7 +85,7 @@
 | 语音语调 | 0.35 | 置信度 > 0.5 |
 | 文本语义 | 0.25 | 置信度 > 0.5 |
 
-**告警规则：**
+**告警规则**：
 
 | 情绪 | 触发条件 | 建议响应 |
 |------|----------|----------|
@@ -76,92 +93,73 @@
 | 愤怒 (anger) | 分值 ≥ 0.8 且持续 ≥ 30秒 | 建议人工接手 |
 | 受挫 (frustration) | 分值 ≥ 0.6 且持续 ≥ 90秒 | 建议服务修复 |
 
-### 2.2 共情交互 (Empathy AI) - 端口 8002
+**源代码**：[models.py](src/emotion_recognition/models.py) | [service.py](src/emotion_recognition/service.py)
+
+### 2.2 共情交互 (Empathy AI) - [端口 8002](src/empathy_ai/)
 
 **功能**：基于上下文和模板生成共情回应及服务修复话术。
 
-### 2.3 客户旅程 (Journey Orchestrator) - 端口 8003
+**源代码**：[models.py](src/empathy_ai/models.py) | [service.py](src/empathy_ai/service.py)
+
+### 2.3 客户旅程 (Journey Orchestrator) - [端口 8003](src/journey_orchestrator/)
 
 **功能**：记录跨渠道服务事件，实现线上线下服务接续。
 
-### 2.4 服务流程 (Service Flow) - 端口 8004
+**源代码**：[models.py](src/journey_orchestrator/models.py) | [service.py](src/journey_orchestrator/service.py)
+
+### 2.4 服务流程 (Service Flow) - [端口 8004](src/service_flow/)
 
 **功能**：判断是否干预及如何修复，结合告警信息生成流程调整建议。
 
-### 2.5 空间优化 (Space Optimizer) - 端口 8005
+**源代码**：[models.py](src/service_flow/models.py) | [service.py](src/service_flow/service.py)
+
+### 2.5 空间优化 (Space Optimizer) - [端口 8005](src/space_optimizer/)
 
 **功能**：基于Z-AHP与Z-TOPSIS评价体系，为网点空间调整提供辅助判断。
 
-**评价指标：**
+**源代码**：[models.py](src/space_optimizer/models.py) | [service.py](src/space_optimizer/service.py)
 
-| 指标类型 | 指标名称 | 优化方向 |
-|----------|----------|----------|
-| 等待数据 | 平均等待时间、平均服务时间 | 越低越好 |
-| 业务数据 | 业务成功率、满意度评分、情绪积极率、投诉率 | 成功率/满意度越高越好 |
-| 空间数据 | 面积效率、功能布局评分、动线评分 | 越高越好 |
-
-### 2.6 隐私保护 (Privacy Shield) - 端口 8006
+### 2.6 隐私保护 (Privacy Shield) - [端口 8006](src/privacy_shield/)
 
 **功能**：确保客户数据隐私安全，支持联邦学习架构。
 
+**源代码**：[models.py](src/privacy_shield/models.py) | [service.py](src/privacy_shield/service.py)
+
 ---
 
-## 三、项目结构
+## 3. 项目结构
 
 ```
 bank-customer-experience/
 ├── src/                              # 源代码
-│   ├── emotion_recognition/          # 情绪识别模块
-│   │   ├── models.py                # 数据模型、融合规则、端侧模型配置
-│   │   └── service.py               # FastAPI服务接口
-│   ├── empathy_ai/                  # 共情交互模块
-│   │   ├── models.py                # 共情策略、话术模板
-│   │   └── service.py               # FastAPI服务接口
-│   ├── journey_orchestrator/        # 客户旅程编排
-│   │   ├── models.py                # 事件模型、客户视图
-│   │   └── service.py               # FastAPI服务接口
-│   ├── service_flow/                # 服务流程引擎
-│   │   ├── models.py                # 流程定义、告警规则、人机协同
-│   │   └── service.py               # FastAPI服务接口
-│   ├── space_optimizer/             # 空间优化评价
-│   │   ├── models.py                # Z-AHP/Z-TOPSIS算法
-│   │   └── service.py               # FastAPI服务接口
-│   ├── privacy_shield/              # 隐私保护模块
-│   │   ├── models.py                # 隐私配置、联邦学习
-│   │   └── service.py               # FastAPI服务接口
-│   └── common/                      # 公共配置
-│       └── config.py
-├── tests/                           # 测试代码
-│   ├── unit/                        # 单元测试 (127 tests)
-│   ├── test_simulation.py           # 模拟测试（6个场景）
-│   └── conftest.py                  # pytest配置
-├── docs/                            # 开发文档
-│   ├── SYSTEM_DESIGN.md             # 系统设计文档
-│   ├── API.md                       # API接口文档
-│   ├── DEPLOYMENT.md                # 部署文档
-│   ├── DATABASE.md                  # 数据库设计
+│   ├── emotion_recognition/          # [模块1] 情绪识别
+│   ├── empathy_ai/                   # [模块2] 共情交互
+│   ├── journey_orchestrator/         # [模块3] 客户旅程
+│   ├── service_flow/                 # [模块4] 服务流程
+│   ├── space_optimizer/              # [模块5] 空间优化
+│   ├── privacy_shield/               # [模块6] 隐私保护
+│   └── common/                       # 公共配置
+├── tests/                            # 测试代码
+│   ├── unit/                         # 单元测试 (127 tests)
+│   ├── test_simulation.py            # 模拟测试
+│   └── conftest.py                   # pytest配置
+├── docs/                             # 开发文档
+│   ├── SYSTEM_DESIGN.md              # 系统设计
+│   ├── API.md                        # API接口文档
+│   ├── DEPLOYMENT.md                 # 部署文档
+│   ├── DATABASE.md                   # 数据库设计
 │   └── EMOTION_RECOGNITION_ARCHITECTURE.md
-├── docker/                          # Docker配置
-│   ├── Dockerfile.emotion-recognition
-│   ├── Dockerfile.empathy-ai
-│   ├── Dockerfile.journey-orchestrator
-│   ├── Dockerfile.privacy-shield
-│   ├── Dockerfile.service-flow
-│   ├── Dockerfile.space-optimizer
+├── docker/                           # Docker配置
+│   ├── Dockerfile.*                  # 各服务Dockerfile
 │   └── docker-compose.yml
-├── scripts/                         # 辅助脚本
-├── configs/                         # 配置文件
-├── requirements.txt                 # Python依赖
-├── pytest.ini                       # pytest配置
-├── setup.py                         # 安装脚本
-├── CHANGELOG.md                     # 变更日志
-├── LICENSE                          # MIT许可证
-└── README.md                        # 项目文档
+├── requirements.txt                  # Python依赖
+├── pytest.ini                        # pytest配置
+└── README.md                         # 项目文档
 ```
 
 ---
 
-## 四、快速开始
+## 4. 快速开始
 
 ### 4.1 环境要求
 
@@ -179,7 +177,7 @@ cd bank-customer-experience
 
 # 创建虚拟环境
 python3 -m venv venv
-source venv/bin/activate  # Linux/Mac
+source venv/bin/activate
 
 # 安装依赖
 pip install -r requirements.txt
@@ -201,7 +199,7 @@ pytest tests/unit/ --cov=src --cov-report=html
 ### 4.4 启动服务
 
 ```bash
-# 启动所有服务（使用Docker）
+# Docker Compose 启动所有服务
 docker-compose up -d
 
 # 或单独启动各服务
@@ -216,12 +214,11 @@ cd src/privacy_shield && python service.py &       # 端口 8006
 ### 4.5 API 调用示例
 
 ```bash
-# 创建情绪识别会话
+# 情绪识别
 curl -X POST http://localhost:8001/emotion/sessions \
   -H "Content-Type: application/json" \
   -d '{"user_id": "user_001", "session_type": "branch_service"}'
 
-# 情绪识别
 curl -X POST http://localhost:8001/emotion/recognize \
   -H "Content-Type: application/json" \
   -d '{"session_id": "xxx", "text": "等太久了！"}'
@@ -244,21 +241,7 @@ curl -X POST http://localhost:8005/space/evaluate/branch_001 \
 
 ---
 
-## 五、技术栈
-
-| 类别 | 技术选型 |
-|------|----------|
-| **语言** | Python 3.11+ |
-| **框架** | FastAPI, PyTorch, Transformers |
-| **数据库** | PostgreSQL, Redis |
-| **消息队列** | Apache Kafka |
-| **隐私计算** | PySyft (联邦学习), OpenDP (差分隐私) |
-| **容器化** | Docker |
-| **测试** | pytest, pytest-asyncio, pytest-cov |
-
----
-
-## 六、模拟测试
+## 5. 模拟测试
 
 项目包含完整的模拟测试功能，支持6种预设场景：
 
@@ -273,22 +256,22 @@ python tests/test_simulation.py --scenario waiting_anxiety
 python tests/test_simulation.py --scenario all --export results.json
 ```
 
-**预设场景：**
+| 场景 | 描述 | 预期告警 |
+|------|------|----------|
+| waiting_anxiety | 等待焦虑场景 | long_term_anxiety |
+| self_service_failure | 自助操作失败场景 | negative_emotion_escalation |
+| complaint_escalation | 投诉升级场景 | conflict_risk |
+| normal_service | 正常服务场景 | 无 |
+| elderly_service | 老年客户服务场景 | long_term_anxiety |
+| vip_urgent | VIP紧急业务场景 | conflict_risk |
 
-| 场景 | 描述 |
-|------|------|
-| waiting_anxiety | 等待焦虑场景 |
-| self_service_failure | 自助操作失败场景 |
-| complaint_escalation | 投诉升级场景 |
-| normal_service | 正常服务场景 |
-| elderly_service | 老年客户服务场景 |
-| vip_urgent | VIP紧急业务场景 |
+**测试结果**：127个单元测试 + 6个模拟场景 ✅
 
 ---
 
-## 七、部署方式
+## 6. 部署指南
 
-### 7.1 Docker Compose
+### 6.1 Docker Compose
 
 ```bash
 # 构建并启动所有服务
@@ -301,7 +284,9 @@ docker-compose ps
 docker-compose logs -f emotion-recognition
 ```
 
-### 7.2 Kubernetes
+**详细文档**：[DEPLOYMENT.md](docs/DEPLOYMENT.md)
+
+### 6.2 Kubernetes
 
 ```bash
 # 创建命名空间
@@ -311,20 +296,23 @@ kubectl create namespace bank-customer-experience
 kubectl apply -f k8s/ -n bank-customer-experience
 ```
 
-详见 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)
-
 ---
 
-## 八、开发指南
+## 7. 开发指南
 
-### 8.1 添加新模块
+### 7.1 技术栈
 
-1. 在 `src/` 下创建模块目录
-2. 实现 `models.py` 和 `service.py`
-3. 添加单元测试到 `tests/unit/`
-4. 更新 `docker-compose.yml`
+| 类别 | 技术选型 |
+|------|----------|
+| **语言** | Python 3.11+ |
+| **框架** | FastAPI, PyTorch, Transformers |
+| **数据库** | PostgreSQL, Redis |
+| **消息队列** | Apache Kafka |
+| **隐私计算** | PySyft (联邦学习), OpenDP (差分隐私) |
+| **容器化** | Docker |
+| **测试** | pytest, pytest-asyncio, pytest-cov |
 
-### 8.2 代码规范
+### 7.2 代码规范
 
 ```bash
 # 格式化代码
@@ -340,7 +328,7 @@ mypy src/
 flake8 src/ tests/
 ```
 
-### 8.3 提交规范
+### 7.3 提交规范
 
 ```
 feat: 新功能
@@ -350,9 +338,16 @@ test: 测试相关
 refactor: 重构
 ```
 
+### 7.4 添加新模块
+
+1. 在 `src/` 下创建模块目录
+2. 实现 `models.py` 和 `service.py`
+3. 添加单元测试到 `tests/unit/`
+4. 更新 `docker-compose.yml`
+
 ---
 
-## 九、后续开发计划
+## 8. 后续开发计划
 
 | 阶段 | 内容 | 状态 |
 |------|------|------|
@@ -363,7 +358,7 @@ refactor: 重构
 
 ---
 
-## 十、参考资料
+## 9. 参考资料
 
 [1] 中国银行业协会. 《2024年中国银行业服务报告》[EB/OL]. 2025-06-24.
 
@@ -375,10 +370,20 @@ refactor: 重构
 
 ---
 
-## 许可证
+## 10. 许可证
 
 MIT License - 详见 [LICENSE](LICENSE)
 
 ---
 
-**项目仓库**：https://github.com/JACKYwyj/bank-customer-experience
+## 📞 联系与支持
+
+- **项目仓库**：https://github.com/JACKYwyj/bank-customer-experience
+- **问题反馈**：https://github.com/JACKYwyj/bank-customer-experience/issues
+
+---
+
+<p align="center">
+  <strong>Bank Customer Experience Enhancement System</strong><br>
+  基于AI赋能与情绪感知双驱动的银行网点客户体验提升方案
+</p>
