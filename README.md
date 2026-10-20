@@ -5,6 +5,23 @@
 [![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/Tests-127%20passed-brightgreen)](https://github.com/JACKYwyj/bank-customer-experience/tree/main/tests/unit)
+[![Pages](https://img.shields.io/badge/GitHub%20Pages-Live-green)](https://jackywyj.github.io/bank-customer-experience/)
+
+---
+
+## 🌐 Live Demo
+
+| 链接 | 说明 |
+|------|------|
+| **🔗 在线演示** | https://jackywyj.github.io/bank-customer-experience/demo/ |
+| **📄 英文主页** | https://jackywyj.github.io/bank-customer-experience/en/ |
+| **📄 中文主页** | https://jackywyj.github.io/bank-customer-experience/zh/ |
+
+---
+
+## Language / 语言
+
+| [🇨🇳 中文](./docs/README_zh.md) | [🇺🇸 English](./docs/README_en.md) |
 
 ---
 
@@ -55,7 +72,7 @@ This solution combines queue progress, operation logs, and customer expressions 
 │  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐      │
 │  │   Emotion    │ │   Empathy    │ │   Service    │ │   Journey    │      │
 │  │ Recognition  │ │      AI      │ │     Flow     │ │ Orchestrator │      │
-│  │   :8001      │ │    :8002     │ │    :8004     │ │    :8003     │      │
+│  │    :8001     │ │    :8002     │ │    :8004     │ │    :8003     │      │
 │  └──────────────┘ └──────────────┘ └──────────────┘ └──────────────┘      │
 │  ┌──────────────┐ ┌──────────────┐                                       │
 │  │    Space     │ │    Privacy   │                                       │
@@ -64,7 +81,7 @@ This solution combines queue progress, operation logs, and customer expressions 
 │  └──────────────┘ └──────────────┘                                       │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                           Data Layer                                        │
-│             PostgreSQL │ Redis │ Kafka                                      │
+│             PostgreSQL │ Redis │ Kafka                                       │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                      Privacy Computing Layer                                │
 │              Federated Learning │ Differential Privacy                      │
@@ -157,28 +174,31 @@ This solution combines queue progress, operation logs, and customer expressions 
 bank-customer-experience/
 ├── src/                              # Source code
 │   ├── emotion_recognition/          # [Module 1] Emotion recognition
-│   ├── empathy_ai/                   # [Module 2] Empathy AI
+│   ├── empathy_ai/                  # [Module 2] Empathy AI
 │   ├── journey_orchestrator/         # [Module 3] Journey orchestrator
 │   ├── service_flow/                 # [Module 4] Service flow
-│   ├── space_optimizer/              # [Module 5] Space optimizer
-│   ├── privacy_shield/               # [Module 6] Privacy shield
+│   ├── space_optimizer/             # [Module 5] Space optimizer
+│   ├── privacy_shield/              # [Module 6] Privacy shield
 │   └── common/                       # Common config
 ├── tests/                            # Tests
 │   ├── unit/                         # Unit tests (127 tests)
 │   ├── test_simulation.py            # Simulation tests
-│   └── conftest.py                   # Pytest config
+│   └── conftest.py                  # Pytest config
 ├── docs/                             # Documentation
-│   ├── SYSTEM_DESIGN.md              # System design
-│   ├── API.md                        # API reference
-│   ├── DEPLOYMENT.md                 # Deployment guide
-│   ├── DATABASE.md                   # Database design
-│   └── EMOTION_RECOGNITION_ARCHITECTURE.md
+│   ├── README_en.md                 # English version
+│   ├── README_zh.md                 # Chinese version
+│   ├── demo/                        # Interactive demo
+│   │   └── index.html               # Demo interface
+│   ├── SYSTEM_DESIGN.md             # System design
+│   ├── API.md                       # API reference
+│   ├── DEPLOYMENT.md                # Deployment guide
+│   └── DATABASE.md                  # Database design
 ├── docker/                           # Docker configs
-│   ├── Dockerfile.*                  # Service Dockerfiles
+│   ├── Dockerfile.*                 # Service Dockerfiles
 │   └── docker-compose.yml
 ├── requirements.txt                  # Dependencies
-├── pytest.ini                        # Pytest config
-└── README.md                         # This file
+├── pytest.ini                       # Pytest config
+└── README.md                        # This file
 ```
 
 ---
@@ -228,11 +248,11 @@ docker-compose up -d
 
 # Or start services individually
 cd src/emotion_recognition && python service.py &  # Port 8001
-cd src/empathy_ai && python service.py &           # Port 8002
+cd src/empathy_ai && python service.py &          # Port 8002
 cd src/journey_orchestrator && python service.py & # Port 8003
-cd src/service_flow && python service.py &         # Port 8004
+cd src/service_flow && python service.py &          # Port 8004
 cd src/space_optimizer && python service.py &      # Port 8005
-cd src/privacy_shield && python service.py &       # Port 8006
+cd src/privacy_shield && python service.py &      # Port 8006
 ```
 
 ### 4.5 API Examples
@@ -405,6 +425,7 @@ MIT License - See [LICENSE](LICENSE)
 
 - **Email**: [1230009401@student.must.edu.mo](mailto:1230009401@student.must.edu.mo)
 - **Repository**: https://github.com/JACKYwyj/bank-customer-experience
+- **Live Demo**: https://jackywyj.github.io/bank-customer-experience/demo/
 - **Issues**: https://github.com/JACKYwyj/bank-customer-experience/issues
 
 ---

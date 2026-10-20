@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -276,9 +276,37 @@
             font-size: 0.9rem;
         }
         .footer a { color: #00d9ff; text-decoration: none; }
+        
+        /* Language Switcher */
+        .lang-switch {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+        .lang-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .lang-btn:hover { background: rgba(255,255,255,0.2); }
+        .lang-btn.active { background: rgba(0,255,136,0.2); border-color: #00ff88; }
     </style>
 </head>
 <body>
+    <!-- Language Switcher -->
+    <div class="lang-switch">
+        <a href="index.html" class="lang-btn active">EN</a>
+        <a href="index_zh.html" class="lang-btn">中文</a>
+    </div>
+    
     <div class="container">
         <!-- Header -->
         <div class="header">
@@ -486,8 +514,6 @@
         // Load scenario
         function loadScenario(name) {
             document.getElementById('inputText').value = scenarios[name];
-            
-            // Highlight selected
             document.querySelectorAll('.scenario-btn').forEach(btn => btn.classList.remove('active'));
             event.target.closest('.scenario-btn').classList.add('active');
         }
@@ -503,7 +529,7 @@
             logs.scrollTop = logs.scrollHeight;
         }
         
-        // Analyze text (mock implementation)
+        // Analyze text
         function analyzeText() {
             const text = document.getElementById('inputText').value.trim();
             if (!text) {
@@ -518,21 +544,18 @@
             addLog('Starting emotion analysis...', '');
             addLog(`Input: "${text.substring(0, 50)}${text.length > 50 ? '...' : ''}"`, '');
             
-            // Simulate processing delay
             setTimeout(() => {
                 const result = mockAnalyze(text);
                 displayResults(result);
-                
                 btn.disabled = false;
                 btn.textContent = '🚀 Analyze Emotion';
             }, 800);
         }
         
-        // Mock analysis (simulates the real model behavior)
+        // Mock analysis
         function mockAnalyze(text) {
             const startTime = Date.now();
             
-            // Keyword-based emotion detection
             const negativeKeywords = {
                 '等太久': 0.85, '投诉': 0.95, '生气': 0.85, '着急': 0.7,
                 '不满意': 0.8, '慢': 0.6, '差': 0.75, '烂': 0.9, '垃圾': 0.95,
@@ -552,13 +575,9 @@
             
             let emotion, confidence;
             if (negScore > posScore && negScore > 0.5) {
-                if (negScore > 0.8) {
-                    emotion = 'anger';
-                } else if (negScore > 0.6) {
-                    emotion = 'frustration';
-                } else {
-                    emotion = 'anxiety';
-                }
+                if (negScore > 0.8) { emotion = 'anger'; }
+                else if (negScore > 0.6) { emotion = 'frustration'; }
+                else { emotion = 'anxiety'; }
                 confidence = Math.min(0.95, negScore + 0.1);
             } else if (posScore > negScore && posScore > 0.4) {
                 emotion = 'satisfaction';
@@ -568,7 +587,6 @@
                 confidence = 0.6;
             }
             
-            // Calculate metrics
             const valence = emotion === 'satisfaction' ? 0.6 : emotion === 'neutral' ? 0 : -0.5;
             const arousal = emotion === 'anger' ? 0.85 : emotion === 'anxiety' ? 0.65 : 0.4;
             
@@ -590,23 +608,19 @@
             
             const emotionData = emotionMap[result.emotion];
             
-            // Update emotion display
             document.getElementById('emotionEmoji').textContent = emotionData.emoji;
             document.getElementById('emotionName').textContent = emotionData.name;
             document.getElementById('emotionName').style.color = emotionData.color;
             document.getElementById('emotionConfidence').textContent = `Confidence: ${(result.confidence * 100).toFixed(1)}%`;
             
-            // Update confidence bar
             const confPercent = result.confidence * 100;
             document.getElementById('confidencePercent').textContent = `${confPercent.toFixed(1)}%`;
             document.getElementById('confidenceBar').style.width = `${confPercent}%`;
             
-            // Update modalities
             document.getElementById('textConf').textContent = `${(result.textConf * 100).toFixed(0)}%`;
             document.getElementById('modText').classList.add('active');
             document.getElementById('modText').classList.remove('inactive');
             
-            // Update alert
             if (result.alert) {
                 const alertBox = document.getElementById('alertBox');
                 alertBox.style.display = 'block';
@@ -614,7 +628,6 @@
                 document.getElementById('alertText').textContent = result.alert.text;
                 document.getElementById('alertRecommendation').textContent = result.alert.recommendation;
                 
-                // Highlight architecture
                 if (result.emotion === 'anger') {
                     document.getElementById('archEmpathy').classList.add('active');
                     document.getElementById('archFlow').classList.add('active');
@@ -625,12 +638,10 @@
                 document.getElementById('alertBox').style.display = 'none';
             }
             
-            // Update metrics
             document.getElementById('valence').textContent = result.valence;
             document.getElementById('arousal').textContent = result.arousal;
             document.getElementById('procTime').textContent = result.procTime;
             
-            // Log results
             addLog(`Detected emotion: ${emotionData.name} (${(result.confidence * 100).toFixed(1)}%)`, 'success');
             if (result.alert) {
                 addLog(`Alert triggered: ${result.alert.text}`, 'warning');
